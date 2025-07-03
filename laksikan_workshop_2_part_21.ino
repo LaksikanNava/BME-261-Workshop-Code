@@ -14,19 +14,19 @@ void loop() {
   int light_Level = analogRead(photoresist_Pin);
   Serial.println(light_Level); 
 
-  if (light_Level > 900) {
+  if (light_Level > 800) {
     // Bright: Green
     analogWrite(green_Pin, 50);  
     analogWrite(red_Pin, 0);
     analogWrite(blue_Pin, 0);
-  } else if (light_Level < 300) {
+  } else if (light_Level < 200) {
     // Dark: Red
     analogWrite(red_Pin, 255);
     analogWrite(green_Pin, 0);
     analogWrite(blue_Pin, 0);
   } else {
     // Ambient: Blue
-    analogWrite(blue_Pin, 180);  
+    analogWrite(blue_Pin, 255);  
     analogWrite(red_Pin, 0);
     analogWrite(green_Pin, 0);
   }
