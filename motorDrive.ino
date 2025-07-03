@@ -8,7 +8,7 @@ void setup() {
   Serial.begin(9600);
   myservo1.attach(11); // Setup for position servo
   myservo2.attach(9);  // Setup for rotation servo
-  Serial.println("Enter angle for position servo or speed for rotation servo:");
+  Serial.println("Enter 'P <angle>' for position servo or 'R <speed>' for rotation servo:");
 }
 
 void posServo(int angle) {
@@ -38,11 +38,21 @@ void rotServo(int speedPercent){
 }
 
 void loop() {
-  if (Serial.available()>0) {
-   String inputString = Serial.readStringUntil('\n'); // Read input as string
-   input = inputString.toInt(); 
-   //posServo(input); 
-   rotServo(input); 
+  if (Serial.available()) {
+    String input = Serial.readStringUntil('\n');
+    input.trim();
+
+    if (input.length() > 0) {
+      char type = input.charAt(0); // 'P' or 'R'
+      int value = input.substring(2).toInt(); // parse number after space
+
+      if (type == 'P' || type == 'p') {
+        posServo(value);
+      } else if (type == 'R' || type == 'r') {
+        rotServo(value);
+      } else {
+        Serial.println("Invalid input. Use 'P <angle>' or 'R <speed>'");
+      }
+    }
   }
-  
 }
